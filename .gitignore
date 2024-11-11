@@ -1,0 +1,16 @@
+.DS_Store
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+# Environment
+.env
+
+# Migrations
+*.py[cod]
+
+# Database
+*.sqlite3
