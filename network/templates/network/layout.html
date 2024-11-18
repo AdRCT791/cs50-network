@@ -4,46 +4,60 @@
 <html lang="en">
     <head>
         <title>{% block title %}Social Network{% endblock %}</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Network</a>
+        <!-- Left Side Bar Navigation -->
+        <nav class="col-left">
+            <a class="" href="#">The Beautiful Network</a>
           
             <div>
-              <ul class="navbar-nav mr-auto">
+              <ul class="">
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
+                    <li class="">
+                        <a class="" href="#">{{ user.username }}</a>
                     </li>
                 {% endif %}
-                <li class="nav-item">
+                <li class="">
                   <a class="nav-link" href="{% url 'index' %}">All Posts</a>
                 </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Following</a>
+                    <li class="">
+                        <a class="" href="#">Following</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    <li class="">
+                        <a class="" href="{% url 'logout' %}">Log Out</a>
                     </li>
+
+                    <button class="btn btn-primary" popovertarget="new-post-popover">New Post</button>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    <li class="">
+                        <a class="" href="{% url 'login' %}">Log In</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    <li class="">
+                        <a class="" href="{% url 'register' %}">Register</a>
                     </li>
                 {% endif %}
               </ul>
             </div>
-          </nav>
+        </nav>
+
+        <!-- Popover New Post -->
+         <div id="new-post-popover" class="post-popover" popover>
+            <h3>New Post</h3>¡™
+         </div>
         
-        <div class="body">
+        <div class="col-center">
             {% block body %}
             {% endblock %}
         </div>
+        <div class="col-right">
+
+        </div>
+
     </body>
 </html>

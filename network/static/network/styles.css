@@ -1,0 +1,89 @@
+@import url();
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-bg-color: #18181b;
+    --main-text-color: #fafafa;
+    --main-border-color: #52525b;
+    --border-radius-md: 12px;
+}
+
+body {
+    font-family: 'Geist', sans-serif;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Columns */
+
+.col-left, .col-right {
+    display: none;
+}
+
+.col-center {
+    
+    width: 100%;
+    
+}
+
+@media screen and (min-width: 768px) {
+
+    .col-left, .col-right {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 200px;
+        flex-grow: 1;
+    }
+
+    .col-center {
+        flex-basis: 600px;
+        border-right: 1px solid var(--main-border-color);
+        border-left: 1px solid var(--main-border-color);
+    }
+
+    .post-popover {
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+
+        background-color: var(--main-bg-color);
+        border: 1px solid var(--main-border-color);
+        border-radius: var(--border-radius-md);
+    }
+
+    .post-popover-popover-open {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post-popover::backdrop {
+        background-color: #09090b;
+        opacity: 0.8;
+    }
+
+
+
+
+}
