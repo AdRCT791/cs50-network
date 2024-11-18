@@ -8,6 +8,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        <script src="{% static 'network/script.js' %}"></script>
     </head>
     <body>
 
@@ -48,7 +49,21 @@
 
         <!-- Popover New Post -->
          <div id="new-post-popover" class="post-popover" popover>
-            <h3>New Post</h3>¡™
+            <h3>New Post</h3>
+            <div class="form-group">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in post_form %}
+                    <div>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div class="right">
+                        <p id="char-count-display"></p>
+                        <input type="submit" value="Post" class="btn btn-primary">
+                    </div>
+                </form> 
+            </div>
          </div>
         
         <div class="col-center">

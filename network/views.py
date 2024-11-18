@@ -1,14 +1,45 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .forms import NewPostForm
+from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    # Initilize post_form in the context
+    post_form = NewPostForm()
+
+    # Handle POST request and autenticated user
+    if request.method =="POST" and request.user.is_authenticated:
+        action = request.POST.get("action")
+        if action == "new_post":
+            return create_post(request)
+    
+    return render(request, "network/index.html", {
+        "post_form": post_form
+    })
+
+@login_required
+def create_post (request):
+    # Initialize form
+    post_form = NewPostForm(request.POST)
+
+    # Check if form is valid
+    if post_form.is_valid():
+        post = post_form.save(commit=False)
+        post.post_author = request.user
+        post.post_text = post.post_text.capitalize()
+        post.save()
+        return HttpResponseRedirect(reverse("index"))
+
+    return render(request, "network/index.html", {
+        "post_form": post_form
+    })
+
 
 
 def login_view(request):
