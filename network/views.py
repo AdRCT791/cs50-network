@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from .forms import NewPostForm
@@ -42,6 +42,16 @@ def create_post (request):
 
     return render(request, "network/index.html", {
         "post_form": post_form
+    })
+
+
+def profile_view(request, username):
+    user = get_object_or_404(User, username=username)
+    user_posts = Post.objects.filter(post_author=user)
+
+    return render(request, "network/profile.html", {
+        "user": user,
+        "user_posts": user_posts,
     })
 
 

@@ -3,7 +3,20 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    following = models.ManyToManyField('self', through='Follow', symmetrical=False, related_name='followers')
+
+    def __str__(self):
+        return self.username
+
+class Follow(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower_relations")
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_relations")
+
+    class Meta:
+        unique_together = ('follower', 'following')
+
+    def __str__(self):
+        return f"{self.follower.username} follows {self.following.username}" 
 
 class Post(models.Model):
     post_author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts')
@@ -12,7 +25,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
 
     def __str__(self):
-        return self.post_text
+        return f"{self.post_author} posted {self.post_text} on {self.post_date}"
 
 
 # What is a like ? It is basically a change of state of an attribute
@@ -28,5 +41,5 @@ class Post(models.Model):
 # Followers Model
 
 # How can I represent a user following an other user ?
-# Following
+# Following Boolean True or False
 # Followers 

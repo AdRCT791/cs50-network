@@ -1,15 +1,27 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+<section class="profile-group">
+    <div class="banner-img"></div>
+    <div class="profile-info">
+        <div class="profile-image"></div>
+        <h1>{{ user }}</h1>
+        <div class="row">
+            <span># followers</span>
+            <span># following</span>
+        </div>
+    </div>
+</section>
+<section>
+    {% for post in user_posts %}
 
-    {% for post in posts  %}
     <div class="post-container">
         <div class="post-col-left">
             <div class="post-profile-img"></div>
         </div>
         <div class="post-col-right">
             <div class="post-info">
-                <a class="post-author-link" href="{% url 'profile' post.post_author %}">@{{ post.post_author }}</a>
+                <span>@{{ post.post_author }}</span>
                 <span>{{ post.post_date | date:"F d, G:i"}}</span>
             </div>
             <div class="post-body">
@@ -21,7 +33,8 @@
             </div>
         </div>
     </div>
-
+    
     {% endfor %}
+</section>
 
 {% endblock %}
