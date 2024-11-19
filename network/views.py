@@ -10,6 +10,9 @@ from .models import User, Post
 
 
 def index(request):
+
+    all_posts = Post.objects.all().order_by('-post_date')
+
     # Initilize post_form in the context
     post_form = NewPostForm()
 
@@ -20,7 +23,8 @@ def index(request):
             return create_post(request)
     
     return render(request, "network/index.html", {
-        "post_form": post_form
+        "post_form": post_form,
+        "posts": all_posts
     })
 
 @login_required
@@ -39,7 +43,6 @@ def create_post (request):
     return render(request, "network/index.html", {
         "post_form": post_form
     })
-
 
 
 def login_view(request):

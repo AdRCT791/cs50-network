@@ -4,9 +4,12 @@
 <html lang="en">
     <head>
         <title>{% block title %}Social Network{% endblock %}</title>
+        
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+/>
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
         <script src="{% static 'network/script.js' %}"></script>
     </head>
@@ -59,8 +62,8 @@
                     </div>
                     {% endfor %}
                     <div class="right">
-                        <p id="char-count-display"></p>
-                        <input type="submit" value="Post" class="btn btn-primary">
+                        <p id="char-count-display">300</p>
+                        <button type="submit" class="btn btn-primary"><i class="ph ph-paper-plane-tilt"></i>Post</button>
                     </div>
                 </form> 
             </div>
