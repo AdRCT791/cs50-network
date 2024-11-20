@@ -5,10 +5,26 @@
     <div class="banner-img"></div>
     <div class="profile-info">
         <div class="profile-image"></div>
-        <h1>{{ user }}</h1>
-        <div class="row">
-            <span># followers</span>
-            <span># following</span>
+
+        {% comment %} -----Follow Button---- {% endcomment %}
+        {% if user.is_authenticated %}
+        <form method="post" class="follow-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="follow">
+            {% if is_following %}
+                <button type="submit" class="btn btn-primary">Unfollow</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Follow</button>
+            {% endif %}
+        </form>
+        {% endif %}
+
+        
+        <h1>{{ user_profile }}</h1>
+        <div class="profile-statistics">
+            <span>{{ number_of_followers }} followers</span>
+            <span>{{ number_of_following }} following</span>
+            <span>{{ number_of_posts }} Posts</span>
         </div>
     </div>
 </section>
@@ -29,6 +45,7 @@
             </div>
             <div class="post-metrics" type="button">
                 <i class="ph ph-heart"></i>
+                <p class="like-count-display">0</p>
                 <p class="like-count-display">0</p>
             </div>
         </div>

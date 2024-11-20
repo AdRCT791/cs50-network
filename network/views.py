@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from .forms import NewPostForm
-from .models import User, Post
+from .models import User, Post, Follow
 
 
 def index(request):
@@ -46,14 +46,59 @@ def create_post (request):
 
 
 def profile_view(request, username):
-    user = get_object_or_404(User, username=username)
-    user_posts = Post.objects.filter(post_author=user)
+    user_profile = get_object_or_404(User, username=username)
+    user_posts = Post.objects.filter(post_author=user_profile)
+    number_of_posts = len(user_posts)
+    followed = user_profile.following.all()
+    followers = user_profile.followers.all()
+    number_of_following = len(followed)
+    number_of_followers = len(followers)
 
-    return render(request, "network/profile.html", {
-        "user": user,
+    #forms
+    #form_follow = FollowUserForm()
+
+    if request.method == "POST" and request.user.is_authenticated:
+        action = request.POST.get("action")
+        if action == "follow":
+            return follow_user(request, username)
+        
+    is_following = Follow.objects.filter(follower=request.user, following=user_profile).exists() if request.user.is_authenticated else False
+
+    context = {
+        "user_profile": user_profile,
         "user_posts": user_posts,
-    })
+        "number_of_posts": number_of_posts,
+        "number_of_following": number_of_following,
+        "number_of_followers": number_of_followers,
+        "is_following": is_following,
+    }
 
+    return render(request, "network/profile.html", context)
+
+@login_required
+def follow_user(request, username):
+    user_profile = get_object_or_404(User,username=username)
+    user = request.user
+    # check if user does not already follow the current user profile
+    if Follow.objects.filter(follower=user, following=user_profile).exists():
+        # Unfollow
+        Follow.objects.filter(follower=user, following=user_profile).delete()
+    else:
+        # Follow
+        Follow.objects.create(follower=user, following=user_profile)
+
+    print(f"Redirecting to profile of: {username}")
+    return HttpResponseRedirect(reverse("profile", kwargs={"username":username}))
+
+
+def following_view(request, username):
+    user = get_object_or_404(User, username=username)
+    followed_users = user.following.all()
+    post_by_followed_users = Post.objects.filter(post_author__in=followed_users)
+
+    return render(request, "network/following.html", {
+        "post_by_followed_users": post_by_followed_users,
+    })
 
 def login_view(request):
     if request.method == "POST":
