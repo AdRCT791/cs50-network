@@ -1,23 +1,26 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    const textInput = document.getElementById('post-input-text');
-    const charCountDisplay = document.getElementById('char-count-display');
-    const buttonFollow = document.getElementById('btn-follow');
+    // POPOVER EVENT LISTENER
+    document.addEventListener('popoverShown', () => {
+        const textInput = document.getElementById('post-input-text');
+        const charCountDisplay = document.getElementById('char-count-display');
+        
+        if(textInput && charCountDisplay) {
+            textInput.addEventListener('input', () => {
+                const charCount = textInput.value.length;
+                charCountDisplay.innerHTML = 300 - charCount;
+            });
+        }
+    });
 
-    // Follow Unfollow Function
-    buttonFollow.addEventListener('click', () => {
-        // check if user already follows the profile
-        // if user follow profile show unfollow
-        // else show follow button
+    // EDIT POST
+    const editButton = document.getElementById('edit-post');
 
+    editButton.addEventListener('click', () => {
+        console.log('This event listener is working');   
     })
 
-    // Character count post input
-    textInput.addEventListener('input', () => {
-        const charCount = textInput.value.length;
-        charCountDisplay.innerHTML = 300 - charCount;
-    })
 
     // // Like Function
     // const likeButton = document.getElementsByClassName('post-metrics');
