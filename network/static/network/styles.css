@@ -91,7 +91,7 @@ a {
     width: fit-content;
 }
 
-.post-metrics:hover {
+.post-metrics:hover, #edit-post:hover {
     background-color: #52525b;
     border-radius: var(--border-rounded);
     transition: background-color 0.2s ease-in-out;
@@ -101,6 +101,35 @@ a {
     color: inherit;
     font-size: 0.8rem;
 }
+
+.post-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.post-date {
+    color: var(--seconday-text-color);
+}
+
+#edit-post {
+    background-color: var(--background-link);
+    color: var(--seconday-text-color);
+    border: none;
+    padding-left: 0.5rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+
+    border-radius: var(--border-rounded);
+
+}
+
 
 /* ------------------------- */
 
@@ -306,4 +335,3 @@ a {
     }
 
 
-}

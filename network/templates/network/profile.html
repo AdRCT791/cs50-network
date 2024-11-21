@@ -7,7 +7,7 @@
         <div class="profile-image"></div>
 
         {% comment %} -----Follow Button---- {% endcomment %}
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user != user_profile %}
         <form method="post" class="follow-form">
             {% csrf_token %}
             <input type="hidden" name="action" value="follow">

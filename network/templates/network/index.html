@@ -2,7 +2,49 @@
 
 {% block body %}
 
-    {% for post in posts  %}
+    {% for post in page_obj  %}
+    <div class="post-container">
+        <div class="post-col-left">
+            <div class="post-profile-img"></div>
+        </div>
+        <div class="post-col-right">
+            <div class="post-info">
+                <div>
+                    <a class="post-author-link" href="{% url 'profile' post.post_author %}">@{{ post.post_author }}</a>
+                    <span class="post-date">{{ post.post_date | date:"F d, G:i"}}</span>
+                </div>
+                <button id="edit-post"><i class="ph ph-pencil-simple"></i>Edit Post</button>
+            </div>
+            <div class="post-body">
+                {{ post.post_text}}
+            </div>
+            <div class="post-metrics" type="button">
+                <i class="ph ph-heart"></i>
+                <p class="like-count-display">0</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% comment %} {% for post in posts  %}
     <div class="post-container">
         <div class="post-col-left">
             <div class="post-profile-img"></div>
@@ -22,6 +64,6 @@
         </div>
     </div>
 
-    {% endfor %}
+    {% endfor %} {% endcomment %}
 
 {% endblock %}
