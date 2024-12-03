@@ -22,11 +22,16 @@ class Post(models.Model):
     post_author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts')
     post_text = models.TextField(max_length=300)
     post_date = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField(User, blank=True, related_name="likes")
+
+    def likes_count(self):
+        return self.like.count()
 
     def __str__(self):
         return f"{self.post_author} posted {self.post_text} on {self.post_date}"
 
+class Like(models.Model):
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="like")
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_like")
 
 # What is a like ? It is basically a change of state of an attribute
 # either a user like a post or not. true of false

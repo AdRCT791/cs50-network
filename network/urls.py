@@ -9,5 +9,8 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("profile/<str:username>", views.profile_view, name="profile"),
-    path("profile/<str:username>/following", views.following_view, name="following")
+    path("profile/<str:username>/following", views.following_view, name="following"),
+
+    # API route for toggling like on a post
+    path('like/<int:post_id>/', views.toggle_like, name='toggle_like'),
 ]

@@ -5,9 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from .forms import NewPostForm
-from .models import User, Post, Follow
+from .models import User, Post, Follow, Like
 
 
 def index(request):
@@ -105,6 +107,35 @@ def following_view(request, username):
     return render(request, "network/following.html", {
         "post_by_followed_users": post_by_followed_users,
     })
+
+@csrf_exempt
+@login_required
+def toggle_like(request, post_id):
+
+    # Get the post to like or unlike
+    try:
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse ({'error': 'Post not found'}, status=404)
+    
+    # get the user who is liking/unliking the post
+    user = request.user
+
+    # Check if the user has already like the post
+    existing_like = Like.objects.filter(post_id=post, user_id=user).first()
+
+    if existing_like:
+        # Remove the existing like
+        existing_like.delete()
+    else:
+        # Like post
+        Like.objects.create(post_id=post, user_id=user)
+    post.save()
+
+    # Update count likes for this post through the liles_count method defined in the Model
+    return JsonResponse({'likes_count': post.likes_count()})
+
+
 
 def login_view(request):
     if request.method == "POST":

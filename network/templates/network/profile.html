@@ -37,8 +37,13 @@
         </div>
         <div class="post-col-right">
             <div class="post-info">
-                <span>@{{ post.post_author }}</span>
-                <span>{{ post.post_date | date:"F d, G:i"}}</span>
+                <div>
+                    <span>@{{ post.post_author }}</span>
+                    <span class="post-date">{{ post.post_date | date:"F d, G:i"}}</span>
+                </div>
+                {% if user.is_authenticated and user == post.post_author %}
+                    <button class="edit-post"><i class="ph ph-pencil-simple"></i>Edit Post</button>
+                {% endif %}
             </div>
             <div class="post-body">
                 {{ post.post_text}}
